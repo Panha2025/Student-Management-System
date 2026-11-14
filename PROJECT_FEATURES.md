@@ -14,7 +14,8 @@ CampusFlow is a course demonstration using fictional student records, HTML, CSS,
 | Student CRUD | `services/studentService.js`; validation, normalization, local/remote selection |
 | Separate persistence | `services/storageService.js`; compatible original keys and explicit storage errors |
 | Student REST API | `api/studentsApi.js`, `api/http.js`; GET/POST/PUT/DELETE, JSON, timeouts |
-| Countries API | `api/countriesApi.js`; REST Countries with a built-in fallback |
+| MockAPI field mapping | `services/studentService.js`; maps `fullName`/`academicYear` and numeric GPA to the app's existing view model |
+| Countries API | `api/countriesApi.js`; CountriesNow with a built-in fallback and a user-facing warning |
 | Sample data | `data/sampleStudents.js`; 64 fictional students across eight majors |
 | Shared add/edit form | `pages/studentForm.js`; required fields and inline accessible errors |
 | Validation | `utils/validation.js`; trimmed input, email, unique student ID, year, status, GPA 0–4 |
@@ -47,7 +48,7 @@ CampusFlow is a course demonstration using fictional student records, HTML, CSS,
 
 ## Automated verification
 
-The completed suite passed **20 of 20 checks**, including the HTTP asset check against the actual VS Code Live Server on port 5500. The source, import graph, endpoints, CSS, favicon, and HTML all returned successfully. No packages were installed.
+The full automated suite passed **20 of 20 checks** against the running VS Code Live Server on port 5500, including HTML/CSS/module asset requests. Without `CAMPUSFLOW_URL`, the one HTTP asset check is skipped. No packages are installed.
 
 ```sh
 CAMPUSFLOW_URL=http://127.0.0.1:5500/ node --test tests/*.test.mjs
@@ -67,7 +68,7 @@ Coverage includes:
 - Mocked remote CRUD methods, encoded IDs, 204 responses, source isolation, and connection validation.
 - HTTP errors, invalid JSON, timeouts, missing POST IDs, and country fallback behavior.
 
-Without `CAMPUSFLOW_URL`, 19 checks run and the HTTP asset check is explicitly skipped. Remote tests use mocked responses; no real MockAPI records were modified.
+Remote automated tests mock `fetch`; the live MockAPI check is documented separately below.
 
 ## Browser verification
 
@@ -89,9 +90,15 @@ Checked in Chrome and Safari over local HTTP. The main app session and a fresh i
 | Mobile | Chrome iPhone 16 emulation at 393 × 852; menu opened, navigation closed it, and form stacked in one column |
 | Console | No application JavaScript exceptions observed; external errors described below |
 
-**Observed external limitation:** REST Countries rejected the browser request with a CORS error during QA. The form remained usable with its built-in country list. Browser-generated network errors still appear in DevTools when the external service fails; frontend code cannot change that service's response headers. An unrelated installed Chrome extension also logged a warning.
+**Country API:** the previous REST Countries request failed in browser QA. CountriesNow's official API docs provide the public `/countries/positions` endpoint, and both its JSON response and the CampusFlow browser fetch succeeded. The Add Student selector listed the returned country names. The app uses the built-in fallback and a visible warning if a future request fails. An unrelated installed Chrome extension also logged a warning.
 
-A real hosted student API was not configured, so its live CORS configuration and credentials were not verified. Remote behavior is covered with mocked HTTP responses. CSV download was exercised in Safari; the downloaded filtered CSV contained one record, all eight fields, and the updated GPA and country. Print Report opened Safari print preview and was canceled. Theme, invalid endpoint, and mobile behavior were also checked in earlier browser QA.
+## MockAPI integration
+
+The `students` resource was created in the supplied MockAPI project with the requested fields and no records. It has collection/item GET, POST, PUT, and DELETE endpoints enabled. Student API payloads use `fullName`, `academicYear`, and numeric `gpa`; the service maps those to the existing UI model (`name`, `year`, and formatted GPA text). The demo collection remains local and no sample records are copied to MockAPI.
+
+The live check confirmed GET returned an empty array, POST created a fictional QA student with the canonical fields, PUT updated its name/GPA/country, and DELETE removed it. A page refresh kept the API record visible until cleanup; the endpoint returned an empty array afterward. Dashboard and Analytics recalculated for remote data, directory search and major filtering found the record, and the browser's demo mode still showed all 64 fictional students. API mode was restored after the demo check. CountriesNow returned its JSON collection in Chrome, and the Add Student selector listed and selected returned countries. Fallback country options and a user-facing notice cover outages.
+
+CSV download was exercised in Safari; the downloaded filtered CSV contained one record, all eight fields, and the updated GPA and country. Print Report opened Safari print preview and was canceled. Theme, invalid endpoint, and mobile behavior were also checked in earlier browser QA.
 
 ## Repeatable manual checks for the team
 

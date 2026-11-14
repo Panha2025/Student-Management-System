@@ -13,10 +13,29 @@ export function normalizeStudent(record) {
     throw new Error('Every student record must have an id. Check your data source in Settings.');
   }
   return {
-    ...Object.fromEntries(STUDENT_FIELDS.map((field) => [field, String(record[field] ?? '')])),
+    ...Object.fromEntries(STUDENT_FIELDS.map((field) => {
+      const value = field === 'name' ? record.fullName ?? record.name
+        : field === 'year' ? record.academicYear ?? record.year
+          : record[field];
+      return [field, String(value ?? '')];
+    })),
     id: String(record.id),
     status: String(record.status ?? 'Active'),
     createdAt: String(record.createdAt ?? ''),
+  };
+}
+
+function toApiStudent(student) {
+  return {
+    studentId: student.studentId,
+    fullName: student.name,
+    email: student.email,
+    major: student.major,
+    academicYear: student.year,
+    gpa: Number(student.gpa),
+    country: student.country,
+    status: student.status,
+    createdAt: student.createdAt,
   };
 }
 
@@ -54,14 +73,15 @@ export async function saveStudent(input, { id = null, students = [] } = {}) {
   const payload = { ...student, createdAt: existing?.createdAt || new Date().toISOString() };
 
   if (endpoint) {
+    const apiStudent = toApiStudent(payload);
     const response = id === null
-      ? await studentsApi.postStudent(endpoint, payload)
-      : await studentsApi.putStudent(endpoint, id, payload);
+      ? await studentsApi.postStudent(endpoint, apiStudent)
+      : await studentsApi.putStudent(endpoint, id, apiStudent);
     // PUT may return 204; POST must return the server-assigned id for future edits.
     if (id === null && (response?.id == null || String(response.id).trim() === '')) {
       throw new Error('The server accepted the save but returned no id. Reload the directory before retrying.');
     }
-    return normalizeStudent({ ...payload, ...response, id: id ?? response.id });
+    return normalizeStudent({ ...apiStudent, ...response, id: id ?? response.id });
   }
 
   const saved = { ...payload, id: id ?? crypto.randomUUID() };

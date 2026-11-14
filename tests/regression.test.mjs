@@ -161,6 +161,16 @@ test('remote CRUD uses correct methods and encoded ids, supports PUT/DELETE 204,
   assert.deepEqual(requests.map((request) => request.method), ['GET', 'POST', 'PUT', 'DELETE']);
   assert.equal(requests[2].url, 'https://example.com/students/remote%2Fid');
   assert.equal(requests[0].headers['Content-Type'], undefined);
+  assert.deepEqual(JSON.parse(requests[1].body), {
+    studentId: 'QA-100', fullName: 'Test Student', email: 'test@example.com', major: 'Computer Science',
+    academicYear: '2', gpa: 3.75, country: 'Cambodia', status: 'Active', createdAt: created.createdAt,
+  });
+  assert.deepEqual(JSON.parse(requests[2].body), {
+    studentId: 'QA-100', fullName: 'Test Student', email: 'test@example.com', major: 'Computer Science',
+    academicYear: '2', gpa: 3.95, country: 'Cambodia', status: 'Active', createdAt: created.createdAt,
+  });
+  assert.equal(normalizeStudents([{ id: 'api-1', studentId: '1', fullName: 'Wire Name', academicYear: '4', gpa: 3.2 }])[0].name, 'Wire Name');
+  assert.equal(normalizeStudents([{ id: 'api-1', studentId: '1', fullName: 'Wire Name', academicYear: '4', gpa: 3.2 }])[0].year, '4');
   assert.deepEqual(readStudents(), demo);
 });
 
@@ -194,10 +204,12 @@ test('HTTP errors, invalid JSON, missing ids, and timeouts have useful errors', 
 });
 
 test('countries are sorted and fall back when offline or the payload is malformed', async () => {
-  globalThis.fetch = async () => jsonResponse([{ name: { common: 'Thailand' } }, { name: { common: 'Cambodia' } }]);
+  globalThis.fetch = async () => jsonResponse({ error: false, data: [{ name: 'Thailand' }, { name: 'Cambodia' }] });
   assert.deepEqual(await fetchCountries(), ['Cambodia', 'Thailand']);
+  let unavailableError;
   globalThis.fetch = async () => { throw new TypeError('Offline'); };
-  assert.ok((await fetchCountries()).includes('Cambodia'));
-  globalThis.fetch = async () => jsonResponse({ bad: 'shape' });
+  assert.ok((await fetchCountries({ onUnavailable: (error) => { unavailableError = error; } })).includes('Cambodia'));
+  assert.match(unavailableError.message, /Could not reach the API/);
+  globalThis.fetch = async () => jsonResponse({ error: false, data: 'bad shape' });
   assert.ok((await fetchCountries()).includes('Cambodia'));
 });

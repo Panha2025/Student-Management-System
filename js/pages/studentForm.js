@@ -52,7 +52,7 @@ export function renderStudentForm(container, context, id = null) {
         ${selectField(student, 'major', 'Major', majors, 'Select major')}
         ${selectField(student, 'year', 'Academic Year', YEARS, 'Select year')}
         ${inputField(student, 'gpa', 'GPA (0.00–4.00)', 'number', 'e.g. 3.75', 'min="0" max="4" step="0.01"')}
-        ${selectField(student, 'country', 'Country', [...context.countries, student.country], 'Select country', 'Country names are provided by REST Countries, with an offline fallback.')}
+        ${selectField(student, 'country', 'Country', [...context.countries, student.country], 'Select country', 'Country names load from a public service, with an offline fallback.')}
         ${selectField(student, 'status', 'Student Status', STATUSES, 'Select status')}
       </div><div class="form-actions"><a href="#students" class="btn secondary">Cancel</a>
         <button class="btn" id="submit-student" type="submit">${editing ? 'Save Changes' : '＋ Register Student'}</button>

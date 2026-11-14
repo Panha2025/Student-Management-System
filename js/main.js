@@ -185,7 +185,9 @@ export async function startApplication() {
     event.preventDefault();
     content.focus();
   });
-  fetchCountries().then((countries) => {
+  fetchCountries({
+    onUnavailable: () => notify('The online country list is unavailable. The built-in country list is ready to use.', 'error'),
+  }).then((countries) => {
     state.countries = countries;
     const select = content.querySelector('#country');
     if (select) {
