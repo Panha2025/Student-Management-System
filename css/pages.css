@@ -1,0 +1,160 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 19px;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 210px;
+}
+
+.filter-count {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.form-layout {
+  display: grid;
+  grid-template-columns: 1fr 315px;
+  gap: 22px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-header {
+  padding-bottom: 17px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-header h2 {
+  margin: 0 0 5px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 11px;
+  justify-content: flex-end;
+  margin-top: 27px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+
+.tip-list {
+  color: var(--muted);
+  padding-left: 21px;
+  line-height: 2;
+}
+
+.tip-list li {
+  padding-left: 2px;
+}
+
+.feature-callout {
+  background: #3655b5;
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.feature-callout h2 {
+  font-size: 23px;
+  margin: 8px 0;
+}
+
+.feature-callout p {
+  color: #e3e8ff;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.welcome {
+  background: #3655b5;
+  color: white;
+  padding: 28px;
+  border-radius: 17px;
+  margin-bottom: 23px;
+}
+
+.welcome h2 {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+.welcome p {
+  color: #e3e8ff;
+  margin: 0 0 18px;
+}
+
+.welcome .btn {
+  background: white;
+  color: #3e5dda;
+}
+
+.settings-list {
+  display: grid;
+  gap: 16px;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 18px;
+  gap: 20px;
+}
+
+.setting-item:last-child {
+  border: 0;
+}
+
+.setting-item h3 {
+  font-size: 14px;
+  margin: 0 0 6px;
+}
+
+.setting-item p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.settings-card {
+  max-width: 850px;
+}
+
+.help-card {
+  max-width: 950px;
+}
+
+.section-spacing {
+  margin-top: 22px;
+}
+
+.endpoint-field {
+  margin: 24px 0;
+}
+
+.connection-result {
+  margin: 18px 0;
+  color: var(--muted);
+}
+
+.performance-value {
+  color: var(--primary);
+}
+
+.form-group .field,
+.form-group .select {
+  width: 100%;
+  min-width: 0;
+}

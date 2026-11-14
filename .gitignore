@@ -1,0 +1,38 @@
+# Operating system and editor files
+.DS_Store
+__MACOSX/
+._*
+.idea/
+.vscode/
+
+# Local credentials, settings, and agent state
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+secrets*.json
+*.local.*
+.aws/
+.codex/
+.agents/
+
+# Archives, dependencies, and generated output
+*.zip
+node_modules/
+coverage/
+test-results/
+playwright-report/
+
+# Temporary files and logs
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+tmp/
