@@ -6,7 +6,8 @@ export function renderDashboard(container, context) {
   const recentStudents = [...context.students]
     .sort((first, second) => second.createdAt.localeCompare(first.createdAt)).slice(0, 5);
 
-  container.innerHTML = `${pageHeader('Dashboard', 'Overview of student records and academic information.', addStudentLink())}
+  container.innerHTML = `<img class="campus-banner" src="assets/images/aupp-campus.jpg" alt="American University of Phnom Penh campus building" width="1024" height="640" fetchpriority="high">
+    ${pageHeader('Dashboard', 'Overview of student records and academic information.', addStudentLink())}
     ${metricCards(context.students)}
     <div class="dashboard-grid">
       <section class="card"><div class="section-head"><h2>Students by Major</h2>

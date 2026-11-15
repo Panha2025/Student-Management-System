@@ -1,20 +1,31 @@
 .icon-btn { background: transparent; border: 1px solid var(--border); border-radius: 6px; width: 34px; height: 34px; color: var(--ink); font-size: 16px; }
 .icon-btn:hover { background: var(--bg); }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; gap: 16px; }
-.page-header p { color: var(--muted); margin: 0; font-size: 13px; }
+.page-header h1 { font-size: 32px; letter-spacing: -.7px; }
+.page-header p { color: var(--muted); margin: 0; font-size: 15px; }
 .btn { border: 1px solid var(--primary); border-radius: 6px; background: var(--primary); color: #fff; padding: 9px 14px; font-weight: 600; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: background-color .15s, border-color .15s; }
-.btn:hover { background: #20384f; border-color: #20384f; }
-.dark .btn:hover { background: #8098af; border-color: #8098af; }
+.btn:hover { background: #9f3309; border-color: #9f3309; }
+.dark .btn:hover { background: #c45a31; border-color: #c45a31; }
 .btn.secondary { background: var(--surface); border-color: var(--border); color: var(--ink); }
 .btn.secondary:hover { background: var(--bg); }
 .btn.danger { background: #a84242; border-color: #a84242; }
 .btn.sm { padding: 6px 9px; font-size: 11px; }
 .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 19px; box-shadow: var(--shadow); min-width: 0; }
-.metric { min-height: 116px; }
-.metric-top { color: var(--muted); font-size: 12px; font-weight: 550; }
-.metric-value { font-size: 27px; line-height: 1.25; font-weight: 650; margin-top: 12px; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
-.metric-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.metric { min-height: 128px; }
+.metric-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--ink); font-size: 14px; font-weight: 550; }
+.metric-icon { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 10px; }
+.metric-icon svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.metric-icon.coral { color: #b83c0c; background: #fbe7de; }
+.metric-icon.blue { color: #2876bd; background: #e6f3ff; }
+.metric-icon.amber { color: #a37622; background: #fff3d9; }
+.metric-icon.purple { color: #7550b0; background: #f0e9ff; }
+.dark .metric-icon.coral { color: #ffad85; background: #472f27; }
+.dark .metric-icon.blue { color: #9acfff; background: #263a4b; }
+.dark .metric-icon.amber { color: #f3cb79; background: #403823; }
+.dark .metric-icon.purple { color: #c6a4f7; background: #382f49; }
+.metric-value { font-size: 31px; line-height: 1.25; font-weight: 650; margin-top: 8px; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+.metric-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .dashboard-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; margin-bottom: 17px; }
 .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
 .section-head h2 { margin: 0; }
@@ -76,7 +87,7 @@ tbody tr:hover td { background: color-mix(in srgb, var(--primary-light) 35%, var
 .bar-caption { gap: 12px; display: flex; justify-content: space-between; font-size: 11px; }
 .bar-caption b { color: var(--muted); font-weight: 550; }
 .bar-track { background: var(--bg); border-radius: 3px; height: 7px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 3px; background: #526f89; }
+.bar-fill { height: 100%; border-radius: 3px; background: #8bc5ff; }
 .notice { padding: 12px 14px; border: 1px solid var(--border); border-left: 3px solid #7890a5; border-radius: 5px; background: var(--bg); color: var(--muted); font-size: 11px; line-height: 1.6; }
 .modal { width: min(100% - 28px, 500px); max-height: 90vh; overflow: auto; background: var(--surface); border-radius: 9px; padding: 22px; box-shadow: 0 16px 48px #09142b33; border: 1px solid var(--border); color: var(--ink); }
 .modal::backdrop { background: rgba(15, 27, 40, .45); }

@@ -1,6 +1,8 @@
-# CampusFlow — Student Management System
+# AUPP Student Management System — Academic Project Demo
 
-An INFO 251 Web Development II final project built with HTML, CSS, and vanilla JavaScript ES6 modules. No framework, build step, or npm dependencies are needed to run the website.
+An INFO 251 Web Development II final project built with HTML, CSS, and vanilla JavaScript ES6 modules. It uses AUPP imagery for an academic project mockup and is not an official AUPP service. No framework, build step, or npm dependencies are needed to run the website.
+
+The campus photo is from [AUPP's campus announcement](https://www.aupp.edu.kh/wp-content/uploads/AUPP-Building.jpg). The unmodified university block logo is from the [AUPP logos page](https://www.aupp.edu.kh/aupp-logos/).
 
 ## Run with VS Code Live Server
 
@@ -29,7 +31,9 @@ Do not open `index.html` through `file://`: browsers require HTTP for ES6 import
 ```text
 student-management-system/
 ├── index.html                   # Persistent semantic application shell
-├── assets/icons/favicon.svg     # Local app icon
+├── assets/
+│   ├── icons/favicon.svg        # Local app icon
+│   └── images/                  # AUPP logo and campus photograph
 ├── css/
 │   ├── base.css                 # Tokens, reset, typography, theme, accessibility
 │   ├── layout.css               # Sidebar, navbar, main area, footer
@@ -52,7 +56,7 @@ student-management-system/
 │   │   ├── storageService.js    # All localStorage reads/writes and storage errors
 │   │   └── settingsService.js   # Test and commit connection changes
 │   ├── components/
-│   │   ├── sidebar.js          # Navigation state and connection indicator
+│   │   ├── sidebar.js          # Navigation state and mobile menu
 │   │   ├── navbar.js           # Date, title, and saved theme
 │   │   ├── modal.js            # Shared native dialog and confirmation behavior
 │   │   ├── notifications.js    # Toast messages

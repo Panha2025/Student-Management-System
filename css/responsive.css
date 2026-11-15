@@ -11,7 +11,8 @@
   .main-wrap { margin-left: 0; }
   .mobile-menu { display: block; }
   .topbar { padding: 0 18px; height: 56px; gap: 9px; }
-  main { padding: 22px 18px 32px; }
+  main { padding: 15px 18px 32px; }
+  .campus-banner { height: 185px; object-position: center 29%; }
   .footer { padding: 14px 18px; display: block; }
   .footer span { display: block; margin-top: 4px; }
   .date-pill { display: none; }
@@ -21,11 +22,17 @@
 
 @media (max-width: 560px) {
   .card { padding: 15px; }
+  .page-header h1 { font-size: 26px; }
+  .page-header p { font-size: 13px; }
+  .campus-banner { height: 138px; object-position: center 29%; border-radius: 8px; margin-bottom: 14px; }
+  .campus-banner + .page-header { margin: 0 2px 16px; }
   .table-card { padding: 0; }
   .metrics { gap: 9px; }
   .metric { min-height: 105px; }
   .metric-value { font-size: 23px; margin-top: 8px; }
   .metric-top { font-size: 10px; }
+  .metric-icon { width: 31px; height: 31px; }
+  .metric-icon svg { width: 18px; height: 18px; }
   .metric-sub { font-size: 9px; }
   .page-header { align-items: flex-start; }
   .page-header .btn { white-space: nowrap; }

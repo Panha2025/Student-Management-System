@@ -1,6 +1,6 @@
 # Project Features and Quality Assurance
 
-CampusFlow is a course demonstration using fictional student records, HTML, CSS, and vanilla JavaScript. It has no framework, build step, or runtime package dependencies.
+The AUPP Student Management System is a course demonstration using fictional student records, HTML, CSS, and vanilla JavaScript. It has no framework, build step, or runtime package dependencies and is not an official AUPP service.
 
 ## Feature mapping
 

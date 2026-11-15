@@ -34,7 +34,7 @@ export function createNavbar(notify) {
     toggleTheme,
     updateTitle(title) {
       document.querySelector('#current-page').textContent = title;
-      document.title = `${title} | CampusFlow`;
+      document.title = `${title} | AUPP Student Management`;
     },
   };
 }

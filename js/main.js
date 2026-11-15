@@ -147,7 +147,6 @@ export async function startApplication() {
     modal.close();
     const route = parseRoute(location.hash);
     sidebar.updateRoute(route.name);
-    sidebar.updateConnection(state.endpoint, state.status);
     navbar.updateTitle(ROUTE_TITLES[route.name]);
     const signal = pageScope.signal;
     const context = {

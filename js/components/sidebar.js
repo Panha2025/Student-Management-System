@@ -32,13 +32,5 @@ export function createSidebar() {
       });
       setOpen(false);
     },
-    updateConnection(endpoint, status) {
-      const failed = status === 'error';
-      document.querySelector('#api-status').textContent = failed ? 'Connection unavailable'
-        : status === 'loading' ? 'Loading students…' : endpoint ? 'API connected' : 'Demo mode';
-      document.querySelector('#api-caption').textContent = failed ? 'Open Settings to recover'
-        : endpoint ? 'Remote records' : 'Local storage connected';
-      document.querySelector('#api-dot').classList.toggle('error', failed);
-    },
   };
 }

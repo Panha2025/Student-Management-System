@@ -66,7 +66,7 @@ test('UI modules do not access fetch or localStorage directly', async () => {
 test('Live Server serves the HTML, CSS, favicon, and complete module graph', {
   skip: !process.env.CAMPUSFLOW_URL,
 }, async () => {
-  const resources = ['index.html', 'assets/icons/favicon.svg',
+  const resources = ['index.html', 'assets/icons/favicon.svg', 'assets/images/aupp-campus.jpg', 'assets/images/aupp-logo.png',
     ...(await findFiles(resolve(root, 'css'))).map((file) => relative(root, file)),
     ...scripts.map((file) => relative(root, file))];
   for (const resource of resources) {

@@ -1,25 +1,18 @@
 .sidebar {
   position: fixed; inset: 0 auto 0 0; width: 236px; background: var(--surface);
-  border-right: 1px solid var(--border); padding: 22px 14px 16px; display: flex;
+  border-right: 1px solid var(--border); padding: 14px 12px 20px; display: flex;
   flex-direction: column; z-index: 8; overflow-y: auto;
+  background: var(--sidebar); color: #fff;
 }
-.brand { display: flex; gap: 10px; align-items: center; font-size: 17px; font-weight: 700; letter-spacing: -.35px; margin: 1px 9px 32px; }
-.brand-icon { color: white; background: var(--primary); font-size: 11px; font-weight: 750; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 7px; letter-spacing: -.3px; }
-.brand-accent { color: var(--link); }
-.brand small { font-size: 8px; letter-spacing: 1.1px; margin-top: 1px; color: var(--muted); font-weight: 600; }
-.nav-label { font-size: 9px; letter-spacing: 1.25px; color: var(--muted); font-weight: 700; margin: 0 12px 7px; }
-.nav-label.second { margin-top: 25px; }
-.nav-link { display: flex; gap: 12px; align-items: center; color: var(--muted); padding: 10px 12px; margin: 2px 0; border-radius: 6px; font-weight: 500; font-size: 13px; transition: background-color .15s, color .15s; }
+.brand { display: flex; flex-direction: column; align-items: center; text-align: center; color: #fff; margin: 0 5px 18px; }
+.brand-logo { display: block; width: 118px; height: auto; object-fit: contain; }
+.brand-subtitle { font-family: Georgia, "Times New Roman", serif; font-size: 14px; line-height: 1.4; margin-top: 7px; }
+.nav-divider { height: 1px; background: rgba(255, 255, 255, .35); margin: 8px 8px 20px; }
+.nav-link { display: flex; gap: 12px; align-items: center; color: #fff; padding: 12px 13px; margin: 3px 0; border-radius: 9px; font-weight: 500; font-size: 14px; transition: background-color .15s, color .15s; }
 .nav-link svg { width: 17px; height: 17px; flex: 0 0 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.nav-link:hover { color: var(--ink); background: var(--bg); }
-.nav-link.active { color: var(--link); background: var(--primary-light); font-weight: 650; box-shadow: inset 2px 0 var(--primary); }
-.sidebar-bottom { margin-top: auto; }
-.api-pill { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; padding: 10px; margin: 18px 0; }
-.api-pill b, .user-mini b { font-size: 11px; font-weight: 650; }
-.api-pill small, .user-mini small { font-size: 10px; color: var(--muted); margin-top: 2px; }
-.dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: #658c70; }
-.dot.error { background: #bb5a5a; }
-.user-mini { border-top: 1px solid var(--border); padding: 14px 4px 0; display: flex; align-items: center; gap: 9px; }
+.nav-link:hover { color: #fff; background: rgba(255, 255, 255, .13); }
+.nav-link.active { color: #1d2b45; background: #faeee8; font-weight: 650; box-shadow: inset 3px 0 #f5b095; }
+.sidebar nav + .nav-divider { margin-top: 17px; }
 .avatar, .top-avatar { border-radius: 50%; background: var(--primary-light); color: var(--link); display: grid; place-items: center; width: 34px; height: 34px; font-size: 10px; font-weight: 700; }
 .main-wrap { margin-left: 236px; min-height: 100vh; min-width: 0; display: flex; flex-direction: column; }
 .topbar { height: 60px; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
@@ -30,6 +23,8 @@
 .date-pill { color: var(--muted); font-size: 11px; }
 .top-avatar { width: 30px; height: 30px; }
 .mobile-menu { display: none; }
-main { padding: 29px 32px 44px; max-width: 1600px; width: 100%; margin: 0 auto; flex: 1; }
-.footer { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 10px; padding: 15px 32px; border-top: 1px solid var(--border); }
+main { padding: 18px 20px 44px; max-width: 1700px; width: 100%; margin: 0 auto; flex: 1; }
+.footer { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 10px; padding: 15px 20px; border-top: 1px solid var(--border); }
 .sidebar-backdrop { display: none; }
+.campus-banner { display: block; width: 100%; height: 236px; object-fit: cover; object-position: center 23%; border-radius: 11px; margin: 0 0 17px; }
+.campus-banner + .page-header { margin: 0 8px 21px; }

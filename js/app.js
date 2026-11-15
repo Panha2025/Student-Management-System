@@ -4,13 +4,13 @@ async function boot() {
     const { startApplication } = await import('./main.js');
     await startApplication();
   } catch (error) {
-    console.error('CampusFlow could not start:', error);
+    console.error('Student management app could not start:', error);
     const content = document.querySelector('#content');
     content.replaceChildren();
     const card = document.createElement('section');
     card.className = 'card';
     const title = document.createElement('h1');
-    title.textContent = 'CampusFlow could not start';
+    title.textContent = 'Student management app could not start';
     const message = document.createElement('p');
     message.textContent = 'Open index.html through VS Code Live Server, then reload. Check that all project files are present.';
     const detail = document.createElement('p');

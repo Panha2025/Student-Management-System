@@ -11,7 +11,7 @@ import { connectEndpoint, testEndpoint } from '../js/services/settingsService.js
 import { requestJson } from '../js/api/http.js';
 import { fetchCountries } from '../js/api/countriesApi.js';
 import { parseRoute } from '../js/router.js';
-import { majorChart, statusChart } from '../js/components/charts.js';
+import { majorChart, metricCards, statusChart } from '../js/components/charts.js';
 
 let memory;
 const originalFetch = globalThis.fetch;
@@ -110,8 +110,10 @@ test('search, combined filters, sorting, and pagination stay consistent after de
 test('all eight majors and unknown statuses are represented in charts', () => {
   const students = createSampleStudents();
   assert.equal((majorChart(students).match(/class="bar-item"/g) || []).length, 8);
+  assert.match(majorChart(students), /background:#8bc5ff/);
+  assert.match(metricCards(students), />64</);
   assert.match(statusChart([{ ...students[0], status: 'Pending' }]), /Pending/);
-  assert.match(statusChart([{ ...students[0], status: '__proto__' }]), /#64748b/);
+  assert.match(statusChart([{ ...students[0], status: '__proto__' }]), /#8491a5/);
   assert.doesNotMatch(statusChart([{ ...students[0], status: '__proto__' }]), /\[object Object\]/);
   assert.match(statusChart([]), /background:var\(--border\)/);
   assert.deepEqual(countBy([{ major: '__proto__' }], 'major'), [['__proto__', 1]]);

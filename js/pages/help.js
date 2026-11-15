@@ -11,14 +11,14 @@ const STEPS = [
 ];
 
 export function renderHelp(container) {
-  container.innerHTML = `${pageHeader('Help & Guide', 'How to use CampusFlow Student Management System.')}
+  container.innerHTML = `${pageHeader('Help & Guide', 'How to use the AUPP Student Management System demo.')}
     <section class="card help-card"><h2>Getting Started</h2>
-      <p class="muted">CampusFlow starts in Demo Mode with 64 fictional sample students saved in this browser.</p>
+      <p class="muted">Demo Mode starts with 64 fictional sample students saved in this browser.</p>
       <div class="settings-list">${STEPS.map(([title, description]) => `<div class="setting-item"><div>
         <h3>${title}</h3><p>${description}</p></div></div>`).join('')}</div>
     </section><section class="card help-card section-spacing"><h2>Web Development II Concepts</h2>
       <p class="muted">Semantic HTML, responsive CSS, ES6 modules, event listeners, DOM rendering, form validation,
         search and filtering, asynchronous fetch(), async/await, API CRUD operations, error handling, and localStorage.</p>
-      <div class="notice">This is a course demonstration without authentication. Use fictional student data.</div>
+      <div class="notice">This is a Web Development II academic project demo. It is not an official AUPP service and has no authentication. Use fictional student data.</div>
     </section>`;
 }
