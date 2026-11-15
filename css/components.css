@@ -21,9 +21,9 @@
 .metric-icon.amber { color: #a37622; background: #fff3d9; }
 .metric-icon.purple { color: #7550b0; background: #f0e9ff; }
 .dark .metric-icon.coral { color: #ffad85; background: #472f27; }
-.dark .metric-icon.blue { color: #9acfff; background: #263a4b; }
+.dark .metric-icon.blue { color: #9acfff; background: #26302f; }
 .dark .metric-icon.amber { color: #f3cb79; background: #403823; }
-.dark .metric-icon.purple { color: #c6a4f7; background: #382f49; }
+.dark .metric-icon.purple { color: #c6a4f7; background: #302933; }
 .metric-value { font-size: 31px; line-height: 1.25; font-weight: 650; margin-top: 8px; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
 .metric-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .dashboard-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; margin-bottom: 17px; }
@@ -46,7 +46,7 @@
 .table-scroll { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; text-align: left; white-space: nowrap; }
 th { background: #f7f9fb; color: var(--muted); text-transform: uppercase; letter-spacing: .55px; font-size: 9px; padding: 11px 15px; font-weight: 650; }
-.dark th { background: #202d39; }
+.dark th { background: #282828; }
 td { border-top: 1px solid var(--border); padding: 11px 15px; font-size: 11px; }
 tbody tr:hover td { background: color-mix(in srgb, var(--primary-light) 35%, var(--surface)); }
 .person { display: flex; align-items: center; gap: 9px; }
@@ -59,7 +59,7 @@ tbody tr:hover td { background: color-mix(in srgb, var(--primary-light) 35%, var
 .badge.unknown { background: var(--bg); color: var(--muted); }
 .dark .badge { background: #2b4035; color: #b0d0b8; }
 .dark .badge.inactive { background: #453b2a; color: #dfc99d; }
-.dark .badge.graduated { background: #303d4b; color: #bbc9d8; }
+.dark .badge.graduated { background: #303030; color: #d0d0d0; }
 .table-actions { display: flex; gap: 4px; align-items: center; }
 .action { min-width: 29px; height: 28px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 5px; padding: 3px 6px; font-size: 12px; }
 .action:hover { color: var(--link); border-color: #aebdca; }

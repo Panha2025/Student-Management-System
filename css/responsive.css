@@ -10,8 +10,8 @@
   .sidebar.open { transform: translateX(0); visibility: visible; }
   .main-wrap { margin-left: 0; }
   .mobile-menu { display: block; }
-  .topbar { padding: 0 18px; height: 56px; gap: 9px; }
-  main { padding: 15px 18px 32px; }
+  .topbar { padding: 3px 18px 1px; min-height: 40px; gap: 9px; }
+  main { padding: 2px 18px 32px; }
   .campus-banner { height: 185px; object-position: center 29%; }
   .footer { padding: 14px 18px; display: block; }
   .footer span { display: block; margin-top: 4px; }

@@ -29,23 +29,23 @@ h3 { font-size: 14px; font-weight: 650; }
 small { display: block; }
 
 .dark {
-  --bg: #141b28;
-  --surface: #1d2935;
-  --ink: #e7edf8;
-  --muted: #a2aec2;
-  --border: #354050;
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --ink: #f1f1f1;
+  --muted: #b4b4b4;
+  --border: #363636;
   --primary: #e9784c;
-  --primary-light: #3a2925;
+  --primary-light: #38251f;
   --link: #ffad85;
-  --sidebar: #762e16;
+  --sidebar: #171717;
   --error: #ee9a9a;
   --success: #9ac5a5;
   --warning: #d9b77d;
   --shadow: none;
   color-scheme: dark;
 }
-.dark th { background: #202d39; }
-:focus-visible { outline: 3px solid #7295b5; outline-offset: 2px; }
+.dark th { background: #282828; }
+:focus-visible { outline: 3px solid #d9825e; outline-offset: 2px; }
 button:disabled { cursor: not-allowed; opacity: .55; }
 [hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }

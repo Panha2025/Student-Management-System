@@ -6,6 +6,7 @@
 }
 .brand { display: flex; flex-direction: column; align-items: center; text-align: center; color: #fff; margin: 0 5px 18px; }
 .brand-logo { display: block; width: 118px; height: auto; object-fit: contain; }
+.dark .brand-logo { background: #fff; border-radius: 6px; padding: 4px; }
 .brand-subtitle { font-family: Georgia, "Times New Roman", serif; font-size: 14px; line-height: 1.4; margin-top: 7px; }
 .nav-divider { height: 1px; background: rgba(255, 255, 255, .35); margin: 8px 8px 20px; }
 .nav-link { display: flex; gap: 12px; align-items: center; color: #fff; padding: 12px 13px; margin: 3px 0; border-radius: 9px; font-weight: 500; font-size: 14px; transition: background-color .15s, color .15s; }
@@ -15,7 +16,7 @@
 .sidebar nav + .nav-divider { margin-top: 17px; }
 .avatar, .top-avatar { border-radius: 50%; background: var(--primary-light); color: var(--link); display: grid; place-items: center; width: 34px; height: 34px; font-size: 10px; font-weight: 700; }
 .main-wrap { margin-left: 236px; min-height: 100vh; min-width: 0; display: flex; flex-direction: column; }
-.topbar { height: 60px; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
+.topbar { min-height: 40px; background: transparent; padding: 3px 20px 1px; display: flex; align-items: center; justify-content: space-between; max-width: 1700px; width: 100%; margin: 0 auto; }
 .top-left, .top-actions, .breadcrumbs { display: flex; align-items: center; gap: 10px; }
 .breadcrumbs { color: var(--muted); font-size: 12px; }
 .breadcrumbs strong { color: var(--ink); font-weight: 600; }
@@ -23,7 +24,7 @@
 .date-pill { color: var(--muted); font-size: 11px; }
 .top-avatar { width: 30px; height: 30px; }
 .mobile-menu { display: none; }
-main { padding: 18px 20px 44px; max-width: 1700px; width: 100%; margin: 0 auto; flex: 1; }
+main { padding: 2px 20px 44px; max-width: 1700px; width: 100%; margin: 0 auto; flex: 1; }
 .footer { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 10px; padding: 15px 20px; border-top: 1px solid var(--border); }
 .sidebar-backdrop { display: none; }
 .campus-banner { display: block; width: 100%; height: 236px; object-fit: cover; object-position: center 23%; border-radius: 11px; margin: 0 0 17px; }
