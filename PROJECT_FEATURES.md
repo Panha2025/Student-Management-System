@@ -24,7 +24,7 @@ The AUPP Student Management System is a course demonstration using fictional stu
 | Statistics and charts | `components/charts.js`; shared by dashboard and analytics, including empty data |
 | CSV export | `utils/csv.js`; exports the filtered/sorted result, quotes values and escapes formula prefixes |
 | Printable analytics | `pages/analytics.js` and print rules in `responsive.css` |
-| Settings | `pages/settings.js`, `services/settingsService.js`; test connections before saving |
+| Settings | `pages/settings.js`, `services/settingsService.js`; shared API by default, Demo Mode remains selectable |
 | Themes and mobile layout | Shared navbar and sidebar; saved theme, mobile backdrop and navigation state |
 | Error handling | Visible startup/load recovery, service errors, field errors, reusable notifications |
 | Listener lifecycle | Each page uses an AbortSignal; table actions use event delegation |
@@ -97,6 +97,8 @@ Checked in Chrome and Safari over local HTTP. The main app session and a fresh i
 The `students` resource was created in the supplied MockAPI project with the requested fields and no records. It has collection/item GET, POST, PUT, and DELETE endpoints enabled. Student API payloads use `fullName`, `academicYear`, and numeric `gpa`; the service maps those to the existing UI model (`name`, `year`, and formatted GPA text). The demo collection remains local and no sample records are copied to MockAPI.
 
 The live check confirmed GET returned an empty array, POST created a fictional QA student with the canonical fields, PUT updated its name/GPA/country, and DELETE removed it. A page refresh kept the API record visible until cleanup; the endpoint returned an empty array afterward. Dashboard and Analytics recalculated for remote data, directory search and major filtering found the record, and the browser's demo mode still showed all 64 fictional students. API mode was restored after the demo check. CountriesNow returned its JSON collection in Chrome, and the Add Student selector listed and selected returned countries. Fallback country options and a user-facing notice cover outages.
+
+The app now defaults first-time visitors to the fixed shared MockAPI endpoint. Settings can test or reconnect that endpoint, or explicitly switch to local Demo Mode. The endpoint is public and has no authentication, so any visitor can modify shared records; only fictional class-project data should be used.
 
 CSV download was exercised in Safari; the downloaded filtered CSV contained one record, all eight fields, and the updated GPA and country. Print Report opened Safari print preview and was canceled. Theme, invalid endpoint, and mobile behavior were also checked in earlier browser QA.
 

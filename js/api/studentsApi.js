@@ -1,5 +1,7 @@
 import { requestJson } from './http.js';
 
+export const STUDENTS_ENDPOINT = 'https://6af863ea9bdd097c326ed47b.mockapi.io/students';
+
 export async function fetchStudents(endpoint) {
   const students = await requestJson(endpoint);
   if (!Array.isArray(students)) throw new Error('The student API must return a JSON array.');

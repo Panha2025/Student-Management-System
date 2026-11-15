@@ -49,9 +49,17 @@ export async function startApplication() {
   async function loadStudents() {
     const version = ++loadVersion;
     state.status = 'loading';
-    render();
+    state.error = '';
     try {
       state.endpoint = studentService.getEndpoint();
+    } catch (error) {
+      state.status = 'error';
+      state.error = error.message;
+      render();
+      return;
+    }
+    render();
+    try {
       const students = await studentService.listStudents();
       if (version !== loadVersion) return;
       state.students = students;
@@ -82,6 +90,7 @@ export async function startApplication() {
       } finally {
         render();
       }
+      return state.students;
     });
   }
 

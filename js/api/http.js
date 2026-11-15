@@ -22,8 +22,8 @@ export async function requestJson(url, { method = 'GET', data, timeout = 12000 }
       throw new Error('The server response is not valid JSON.');
     }
   } catch (error) {
-    if (error.name === 'AbortError') throw new Error('Request timed out. Check your connection and API URL.');
-    if (error instanceof TypeError) throw new Error('Could not reach the API. Check your connection, URL, and CORS settings.');
+    if (error.name === 'AbortError') throw new Error('Request timed out. Check your connection and try again.');
+    if (error instanceof TypeError) throw new Error('Could not reach the API. Check your connection or try again later.');
     throw error;
   } finally {
     clearTimeout(timer);

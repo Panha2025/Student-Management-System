@@ -5,9 +5,9 @@ const STEPS = [
   ['2. All Students', 'Search names, student IDs, or emails. Filter by major, year, and status; sort results; view profiles; edit or delete records.'],
   ['3. Add Student', 'Complete every field with a unique student ID and a GPA from 0.00 to 4.00. Country options have an offline fallback.'],
   ['4. Analytics', 'See all majors, academic years, student statuses, and average GPA. Use Print Report for a printable overview.'],
-  ['5. Connect an API', 'Create a students resource in MockAPI, then test and save its full HTTPS URL in Settings. Connecting does not copy local records to the API.'],
+  ['5. Use shared student records', 'The app connects to the class MockAPI database automatically. Settings can test the connection or switch to Demo Mode; demo records are never copied to MockAPI.'],
   ['6. Export Records', 'Press Export CSV in All Students to download every record matching the current search and filters, in the selected sort order.'],
-  ['7. Recover from a data error', 'Check the API URL or switch to Demo Mode in Settings. Reset Demo Data replaces local records after confirmation.'],
+  ['7. Recover from a data error', 'Retry the shared API request or choose Demo Mode in Settings. API errors never switch data sources automatically. Reset Demo Data only replaces this browser’s local records after confirmation.'],
 ];
 
 export function renderHelp(container) {
@@ -19,6 +19,6 @@ export function renderHelp(container) {
     </section><section class="card help-card section-spacing"><h2>Web Development II Concepts</h2>
       <p class="muted">Semantic HTML, responsive CSS, ES6 modules, event listeners, DOM rendering, form validation,
         search and filtering, asynchronous fetch(), async/await, API CRUD operations, error handling, and localStorage.</p>
-      <div class="notice">This is a Web Development II academic project demo. It is not an official AUPP service and has no authentication. Use fictional student data.</div>
+      <div class="notice">This is a Web Development II academic project demo, not an official AUPP service. The public MockAPI endpoint has no authentication or access control; anyone who knows the URL may read or modify shared records. Use fictional student data only.</div>
     </section>`;
 }

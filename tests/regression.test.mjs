@@ -6,9 +6,10 @@ import { createDirectoryFilters, countBy, filterStudents, getStatistics, paginat
 import { escapeHtml, formatDate, formatGpa } from '../js/utils/formatting.js';
 import { createStudentsCsv } from '../js/utils/csv.js';
 import { readStudents, STORAGE_KEYS } from '../js/services/storageService.js';
-import { deleteStudent, listStudents, normalizeStudents, resetSampleStudents, saveStudent } from '../js/services/studentService.js';
+import { deleteStudent, getEndpoint, listStudents, normalizeStudents, resetSampleStudents, saveStudent } from '../js/services/studentService.js';
 import { connectEndpoint, testEndpoint } from '../js/services/settingsService.js';
 import { requestJson } from '../js/api/http.js';
+import { STUDENTS_ENDPOINT } from '../js/api/studentsApi.js';
 import { fetchCountries } from '../js/api/countriesApi.js';
 import { parseRoute } from '../js/router.js';
 import { majorChart, metricCards, statusChart } from '../js/components/charts.js';
@@ -22,6 +23,7 @@ const studentInput = {
 
 beforeEach(() => {
   memory = new Map();
+  memory.set(STORAGE_KEYS.endpoint, '');
   Object.defineProperty(globalThis, 'localStorage', {
     configurable: true,
     value: {
@@ -44,6 +46,34 @@ test('first load seeds 64 students, preserves existing records, and keeps an emp
   assert.deepEqual(await listStudents(), seeded);
   memory.set(STORAGE_KEYS.students, '[]');
   assert.deepEqual(await listStudents(), []);
+});
+
+test('a first visit defaults to shared MockAPI without seeding or uploading demo records', async () => {
+  memory.delete(STORAGE_KEYS.endpoint);
+  const record = {
+    id: 'remote-1', studentId: 'QA-REMOTE-1', fullName: 'Fictional API Student',
+    email: 'fictional@example.com', major: 'Computer Science', academicYear: '2',
+    gpa: 3.5, country: 'Cambodia', status: 'Active', createdAt: '2026-01-01T00:00:00.000Z',
+  };
+  let requestedUrl;
+  globalThis.fetch = async (url) => {
+    requestedUrl = url;
+    return jsonResponse([record]);
+  };
+
+  assert.equal(getEndpoint(), STUDENTS_ENDPOINT);
+  assert.equal((await listStudents())[0].name, 'Fictional API Student');
+  assert.equal(requestedUrl, STUDENTS_ENDPOINT);
+  assert.equal(memory.has(STORAGE_KEYS.students), false);
+});
+
+test('a first-visit API failure stays in API mode and does not seed demo records', async () => {
+  memory.delete(STORAGE_KEYS.endpoint);
+  globalThis.fetch = async () => { throw new TypeError('Network unavailable'); };
+
+  await assert.rejects(listStudents(), /Could not reach the API/);
+  assert.equal(getEndpoint(), STUDENTS_ENDPOINT);
+  assert.equal(memory.has(STORAGE_KEYS.students), false);
 });
 
 test('local create, read, update, and delete persist with stable ids and timestamps', async () => {

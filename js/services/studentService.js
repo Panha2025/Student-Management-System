@@ -1,11 +1,11 @@
-import * as studentsApi from '../api/studentsApi.js';
+import { fetchStudents, postStudent, putStudent, removeStudent, STUDENTS_ENDPOINT } from '../api/studentsApi.js';
 import { createSampleStudents } from '../data/sampleStudents.js';
 import { STUDENT_FIELDS } from '../data/studentOptions.js';
 import { cleanStudentInput, validateStudent } from '../utils/validation.js';
 import { readSetting, readStudents, STORAGE_KEYS, writeStudents } from './storageService.js';
 
 export function getEndpoint() {
-  return readSetting(STORAGE_KEYS.endpoint).trim().replace(/\/+$/, '');
+  return readSetting(STORAGE_KEYS.endpoint, STUDENTS_ENDPOINT).trim().replace(/\/+$/, '');
 }
 
 export function normalizeStudent(record) {
@@ -55,7 +55,7 @@ function getLocalStudents() {
 
 export async function listStudents() {
   const endpoint = getEndpoint();
-  return endpoint ? normalizeStudents(await studentsApi.fetchStudents(endpoint)) : getLocalStudents();
+  return endpoint ? normalizeStudents(await fetchStudents(endpoint)) : getLocalStudents();
 }
 
 export async function saveStudent(input, { id = null, students = [] } = {}) {
@@ -75,8 +75,8 @@ export async function saveStudent(input, { id = null, students = [] } = {}) {
   if (endpoint) {
     const apiStudent = toApiStudent(payload);
     const response = id === null
-      ? await studentsApi.postStudent(endpoint, apiStudent)
-      : await studentsApi.putStudent(endpoint, id, apiStudent);
+      ? await postStudent(endpoint, apiStudent)
+      : await putStudent(endpoint, id, apiStudent);
     // PUT may return 204; POST must return the server-assigned id for future edits.
     if (id === null && (response?.id == null || String(response.id).trim() === '')) {
       throw new Error('The server accepted the save but returned no id. Reload the directory before retrying.');
@@ -94,7 +94,7 @@ export async function saveStudent(input, { id = null, students = [] } = {}) {
 export async function deleteStudent(id) {
   const endpoint = getEndpoint();
   if (endpoint) {
-    await studentsApi.removeStudent(endpoint, id);
+    await removeStudent(endpoint, id);
     return;
   }
   const students = getLocalStudents();
