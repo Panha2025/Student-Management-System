@@ -8,7 +8,7 @@ export function pageHeader(title, subtitle, actions = '') {
 }
 
 export function addStudentLink() {
-  return '<a href="#add" class="btn">＋ Add New Student</a>';
+  return '<a href="#add" class="btn">+ Add Student</a>';
 }
 
 export function selectOptions(values, selected = '', placeholder = '') {

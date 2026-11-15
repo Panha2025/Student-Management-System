@@ -111,7 +111,7 @@ test('all eight majors and unknown statuses are represented in charts', () => {
   const students = createSampleStudents();
   assert.equal((majorChart(students).match(/class="bar-item"/g) || []).length, 8);
   assert.match(statusChart([{ ...students[0], status: 'Pending' }]), /Pending/);
-  assert.match(statusChart([{ ...students[0], status: '__proto__' }]), /#8d9bb9/);
+  assert.match(statusChart([{ ...students[0], status: '__proto__' }]), /#64748b/);
   assert.doesNotMatch(statusChart([{ ...students[0], status: '__proto__' }]), /\[object Object\]/);
   assert.match(statusChart([]), /background:var\(--border\)/);
   assert.deepEqual(countBy([{ major: '__proto__' }], 'major'), [['__proto__', 1]]);

@@ -57,8 +57,6 @@ export function renderStudentForm(container, context, id = null) {
       </div><div class="form-actions"><a href="#students" class="btn secondary">Cancel</a>
         <button class="btn" id="submit-student" type="submit">${editing ? 'Save Changes' : '＋ Register Student'}</button>
       </div></form></section><aside>
-      <div class="feature-callout"><span>✦ CAMPUSFLOW</span><h2>Every student matters.</h2>
-        <p>Keep academic data organized, accurate and easy to access.</p></div>
       <div class="card"><h2>Before you save</h2><ul class="tip-list">
         <li>Use a unique student ID.</li><li>Enter the student's complete name.</li>
         <li>Double-check the email address.</li><li>GPA must be from 0.00 to 4.00.</li>

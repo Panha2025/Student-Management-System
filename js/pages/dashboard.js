@@ -6,11 +6,8 @@ export function renderDashboard(container, context) {
   const recentStudents = [...context.students]
     .sort((first, second) => second.createdAt.localeCompare(first.createdAt)).slice(0, 5);
 
-  container.innerHTML = `${pageHeader('Dashboard', 'Welcome back! Here is what is happening with your students.', addStudentLink())}
-    <section class="welcome"><h2>Make student management effortless ✦</h2>
-      <p>Organize records, monitor progress and manage your academic community in one place.</p>
-      <a href="#students" class="btn">Explore Students →</a>
-    </section>${metricCards(context.students)}
+  container.innerHTML = `${pageHeader('Dashboard', 'Overview of student records and academic information.', addStudentLink())}
+    ${metricCards(context.students)}
     <div class="dashboard-grid">
       <section class="card"><div class="section-head"><h2>Students by Major</h2>
         <a class="text-link" href="#analytics">View Analytics →</a></div>${majorChart(context.students)}</section>

@@ -1,23 +1,22 @@
 import { escapeHtml } from '../utils/formatting.js';
 import { countBy, getStatistics } from '../utils/studentQueries.js';
 
-const COLORS = ['#4c68e9', '#2db99a', '#f1b051', '#b18bea', '#ef809a', '#5bb1d4', '#8d9bb9', '#dc917b'];
-const STATUS_COLORS = { Active: '#31b89b', Inactive: '#f3b25a', Graduated: '#987be7' };
+const STATUS_COLORS = { Active: '#648b77', Inactive: '#b58b48', Graduated: '#64748b' };
 
 function statusColor(status) {
-  return Object.hasOwn(STATUS_COLORS, status) ? STATUS_COLORS[status] : '#8d9bb9';
+  return Object.hasOwn(STATUS_COLORS, status) ? STATUS_COLORS[status] : '#64748b';
 }
 
 export function metricCards(students) {
   const stats = getStatistics(students);
   const metrics = [
-    ['Total Students', stats.total, '♙', 'All enrolled records'],
-    ['Active Students', stats.active, '◉', 'Currently studying'],
-    ['Inactive Students', stats.inactive, '◌', 'Not currently active'],
-    ['Average GPA', stats.averageGpa, '▤', 'Across valid student GPAs'],
+    ['Total Students', stats.total, 'All enrolled records'],
+    ['Active Students', stats.active, 'Currently studying'],
+    ['Inactive Students', stats.inactive, 'Not currently active'],
+    ['Average GPA', stats.averageGpa, 'Across valid student GPAs'],
   ];
-  return `<div class="metrics">${metrics.map(([label, value, icon, description]) => `<article class="card metric">
-    <div class="metric-top">${label}<span class="metric-icon" aria-hidden="true">${icon}</span></div>
+  return `<div class="metrics">${metrics.map(([label, value, description]) => `<article class="card metric">
+    <div class="metric-top">${label}</div>
     <div class="metric-value">${value}</div><div class="metric-sub">${description}</div>
   </article>`).join('')}</div>`;
 }
@@ -25,9 +24,9 @@ export function metricCards(students) {
 export function barChart(entries) {
   if (!entries.length) return '<div class="empty">No data yet</div>';
   const maximum = Math.max(1, ...entries.map(([, count]) => count));
-  return `<div class="bar-list">${entries.map(([label, count], index) => `<div class="bar-item">
+  return `<div class="bar-list">${entries.map(([label, count]) => `<div class="bar-item">
     <div class="bar-caption"><span>${escapeHtml(label)}</span><b>${count} students</b></div>
-    <div class="bar-track" aria-hidden="true"><div class="bar-fill" style="width:${count / maximum * 100}%;background:${COLORS[index % COLORS.length]}"></div></div>
+    <div class="bar-track" aria-hidden="true"><div class="bar-fill" style="width:${count / maximum * 100}%"></div></div>
   </div>`).join('')}</div>`;
 }
 
