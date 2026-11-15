@@ -14,5 +14,6 @@ export async function connectEndpoint(value) {
   const students = endpoint ? await testEndpoint(endpoint) : null;
   // Persist the source only after a successful read, keeping the previous source on failure.
   writeSetting(STORAGE_KEYS.endpoint, endpoint);
+  writeSetting(STORAGE_KEYS.mode, endpoint ? 'api' : 'demo');
   return students;
 }

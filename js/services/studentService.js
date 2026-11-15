@@ -5,7 +5,10 @@ import { cleanStudentInput, validateStudent } from '../utils/validation.js';
 import { readSetting, readStudents, STORAGE_KEYS, writeStudents } from './storageService.js';
 
 export function getEndpoint() {
-  return readSetting(STORAGE_KEYS.endpoint, STUDENTS_ENDPOINT).trim().replace(/\/+$/, '');
+  const mode = readSetting(STORAGE_KEYS.mode, null);
+  if (mode === null) return STUDENTS_ENDPOINT;
+  if (mode === 'demo') return '';
+  return readSetting(STORAGE_KEYS.endpoint, STUDENTS_ENDPOINT).trim().replace(/\/+$/, '') || STUDENTS_ENDPOINT;
 }
 
 export function normalizeStudent(record) {

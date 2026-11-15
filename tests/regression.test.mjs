@@ -24,6 +24,7 @@ const studentInput = {
 beforeEach(() => {
   memory = new Map();
   memory.set(STORAGE_KEYS.endpoint, '');
+  memory.set(STORAGE_KEYS.mode, 'demo');
   Object.defineProperty(globalThis, 'localStorage', {
     configurable: true,
     value: {
@@ -49,7 +50,8 @@ test('first load seeds 64 students, preserves existing records, and keeps an emp
 });
 
 test('a first visit defaults to shared MockAPI without seeding or uploading demo records', async () => {
-  memory.delete(STORAGE_KEYS.endpoint);
+  memory.delete(STORAGE_KEYS.mode);
+  memory.set(STORAGE_KEYS.endpoint, '');
   const record = {
     id: 'remote-1', studentId: 'QA-REMOTE-1', fullName: 'Fictional API Student',
     email: 'fictional@example.com', major: 'Computer Science', academicYear: '2',
@@ -68,12 +70,20 @@ test('a first visit defaults to shared MockAPI without seeding or uploading demo
 });
 
 test('a first-visit API failure stays in API mode and does not seed demo records', async () => {
-  memory.delete(STORAGE_KEYS.endpoint);
+  memory.delete(STORAGE_KEYS.mode);
+  memory.set(STORAGE_KEYS.endpoint, '');
   globalThis.fetch = async () => { throw new TypeError('Network unavailable'); };
 
   await assert.rejects(listStudents(), /Could not reach the API/);
   assert.equal(getEndpoint(), STUDENTS_ENDPOINT);
   assert.equal(memory.has(STORAGE_KEYS.students), false);
+});
+
+test('legacy source settings without a saved mode migrate to the shared endpoint', () => {
+  memory.delete(STORAGE_KEYS.mode);
+  memory.set(STORAGE_KEYS.endpoint, 'https://old-project.example/students');
+
+  assert.equal(getEndpoint(), STUDENTS_ENDPOINT);
 });
 
 test('local create, read, update, and delete persist with stable ids and timestamps', async () => {
@@ -176,6 +186,7 @@ test('URL validation avoids the original regex failure and rejects unsupported U
 
 test('remote CRUD uses correct methods and encoded ids, supports PUT/DELETE 204, and leaves demo data intact', async () => {
   const demo = await listStudents();
+  memory.set(STORAGE_KEYS.mode, 'api');
   memory.set(STORAGE_KEYS.endpoint, 'https://example.com/students');
   const requests = [];
   globalThis.fetch = async (url, options) => {
@@ -227,6 +238,7 @@ test('HTTP errors, invalid JSON, missing ids, and timeouts have useful errors', 
   await assert.rejects(requestJson('https://example.com'), /not valid JSON/);
   assert.throws(() => normalizeStudents([{ id: 1 }, { id: 1 }]), /duplicate/);
   globalThis.fetch = async () => new Response(null, { status: 204 });
+  memory.set(STORAGE_KEYS.mode, 'api');
   memory.set(STORAGE_KEYS.endpoint, 'https://example.com/students');
   await assert.rejects(saveStudent(studentInput), /Reload the directory before retrying/);
   globalThis.fetch = (_url, { signal }) => new Promise((_resolve, reject) => {

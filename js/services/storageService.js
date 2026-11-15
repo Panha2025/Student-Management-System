@@ -2,6 +2,7 @@
 export const STORAGE_KEYS = {
   students: 'campusflow_students_v1',
   endpoint: 'campusflow_api_url',
+  mode: 'campusflow_data_mode',
   theme: 'campusflow_theme',
 };
 
