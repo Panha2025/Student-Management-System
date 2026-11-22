@@ -9,7 +9,7 @@ export default function Dashboard({ students, actions }) {
   const recent = [...students].sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 5);
   return <>
     <img className="campus-banner" src="/images/aupp-campus.jpg" alt="American University of Phnom Penh campus building" width="1024" height="640" fetchPriority="high" />
-    <div className="page-header"><div><h1>Dashboard</h1><p>Student records at a glance.</p></div><a className="btn" href="#add">＋ Add Student</a></div>
+    <div className="page-header"><div><h1>Dashboard</h1></div><a className="btn" href="#add">＋ Add Student</a></div>
     <div className="metrics">
       <StatCard label="Total Students" value={stats.total} tone="coral" icon="♙" />
       <StatCard label="Active Students" value={stats.active} tone="blue" icon="✓" />

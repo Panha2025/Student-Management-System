@@ -14,15 +14,10 @@
 .nav-link:hover { color: #fff; background: rgba(255, 255, 255, .13); }
 .nav-link.active { color: #1d2b45; background: #faeee8; font-weight: 650; box-shadow: inset 3px 0 #f5b095; }
 .sidebar nav + .nav-divider { margin-top: 17px; }
-.avatar, .top-avatar { border-radius: 50%; background: var(--primary-light); color: var(--link); display: grid; place-items: center; width: 34px; height: 34px; font-size: 10px; font-weight: 700; }
 .main-wrap { margin-left: 236px; min-height: 100vh; min-width: 0; display: flex; flex-direction: column; }
 .topbar { min-height: 40px; background: transparent; padding: 3px 20px 1px; display: flex; align-items: center; justify-content: space-between; max-width: 1700px; width: 100%; margin: 0 auto; }
-.top-left, .top-actions, .breadcrumbs { display: flex; align-items: center; gap: 10px; }
-.breadcrumbs { color: var(--muted); font-size: 12px; }
-.breadcrumbs strong { color: var(--ink); font-weight: 600; }
+.top-left, .top-actions { display: flex; align-items: center; gap: 10px; }
 .top-actions { gap: 13px; }
-.date-pill { color: var(--muted); font-size: 11px; }
-.top-avatar { width: 30px; height: 30px; }
 .mobile-menu { display: none; }
 main { padding: 2px 20px 44px; max-width: 1700px; width: 100%; margin: 0 auto; flex: 1; }
 .footer { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 10px; padding: 15px 20px; border-top: 1px solid var(--border); }

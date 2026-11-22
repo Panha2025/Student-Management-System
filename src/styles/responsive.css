@@ -15,9 +15,7 @@
   .campus-banner { height: 185px; object-position: center 29%; }
   .footer { padding: 14px 18px; display: block; }
   .footer span { display: block; margin-top: 4px; }
-  .date-pill { display: none; }
   .sidebar-backdrop { display: block; position: fixed; inset: 0; z-index: 7; border: 0; background: rgba(18, 30, 43, .4); }
-  .breadcrumbs { font-size: 11px; gap: 6px; }
 }
 
 @media (max-width: 560px) {
@@ -33,7 +31,6 @@
   .metric-top { font-size: 10px; }
   .metric-icon { width: 31px; height: 31px; }
   .metric-icon svg { width: 18px; height: 18px; }
-  .metric-sub { font-size: 9px; }
   .page-header { align-items: flex-start; }
   .page-header .btn { white-space: nowrap; }
   .toolbar > * { flex: 1 1 130px; }
@@ -46,7 +43,6 @@
   .form-actions { flex-direction: column-reverse; }
   .form-actions .btn { width: 100%; }
   .top-actions { gap: 7px; }
-  .top-avatar { display: none; }
   .pagination, .setting-item { flex-wrap: wrap; }
   .pagination { padding: 11px 13px; }
   .pages { flex-wrap: wrap; }

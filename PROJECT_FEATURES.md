@@ -1,28 +1,33 @@
 # CampusFlow feature and architecture notes
 
-CampusFlow is the React/Vite edition of the AUPP-inspired Student Management System. It is a university demo and must use fictional student records.
+CampusFlow is the React/Vite edition of the AUPP-inspired Student Management System. It is an INFO 251 coursework demo and uses fictional records.
 
-## Pages and features
+## Sign-in and app access
 
-- **Dashboard:** total, active and inactive counts; mean GPA; students by major; status chart; recently added students; quick link to add a record.
-- **All Students:** student profile view, edit/delete actions, search, major/year/status filters, sorting, pagination, CSV export, and empty state.
-- **Add/Edit Student:** controlled form fields, required-field/email/GPA/year/status validation, unique student ID validation, country list with fallback, and save feedback.
-- **Analytics:** live summary cards, major/year/status charts, and print report.
-- **Settings:** API connection check, switch between shared API and local demo records, theme toggle, and local-only demo reset.
-- **Help:** short usage overview and shared database limitations.
+- Firebase Authentication's Google provider handles real OAuth sign-in.
+- An auth-state listener restores the signed-in user after refresh; browser local persistence is selected before opening the Google popup.
+- The app shows a loading gate until Firebase resolves the current user. Guests see the login screen instead of the dashboard and cannot open app pages through hash navigation.
+- The account menu displays the signed-in Google name, email, and profile photo when supplied. Sign-out returns the app to login.
+- There are no administrator roles or authorization rules. Successful sign-in identifies a user but does not grant a special role.
 
-## Data behavior
+Firebase values are loaded from Vite `VITE_FIREBASE_*` environment variables. `.env.example` documents the required client config. Never put Firebase Admin credentials or OAuth secrets in this frontend. Real OAuth requires a Firebase project, Google provider enabled, authorized hostnames, and environment values in local/Vercel settings.
 
-- API Mode is the first-visit default and reads `https://6af863ea9bdd097c326ed47b.mockapi.io/students`.
-- API operations use `fetch()` and `async/await`; remote records are never seeded, reset, or automatically replaced by local records.
-- Demo Mode stores data under the compatible `campusflow_students_v1` localStorage key. Its generator produces 64 fictional demo students.
-- API mode and demo mode remain separate. An API failure is shown to the user and does not change modes.
-- CountriesNow provides country options. A built-in list remains available when the service cannot be reached.
+## Student features
 
-## React learning concepts
+- **Dashboard:** total, active/inactive counts, mean GPA, major chart, status chart, and recently added records.
+- **Directory:** profiles, validated add/edit, delete confirmation, search, major/year/status filters, sorting, pagination, and CSV export.
+- **Analytics:** charts by major, status, and academic year; print support.
+- **Settings:** API connection check, shared API/local demo switch, appearance, and local-only sample reset.
+- **Countries:** CountriesNow options with an offline fallback list.
 
-The app uses function components, props, JSX lists with stable keys, controlled form values, conditional rendering, `useState`, `useEffect`, `useMemo`, event callbacks, and fetch-based asynchronous services. There is no router or state-management package; simple hash navigation is kept in `src/router.js`.
+## Data mode and limits
 
-## Security and scope
+- API Mode reads `https://6af863ea9bdd097c326ed47b.mockapi.io/students` and sends CRUD requests through `fetch()`.
+- Demo Mode uses the preserved 64 fictional demo students in browser localStorage.
+- No demo records are uploaded to the API. API errors do not silently fall back to demo mode.
+- The public MockAPI resource has no auth or access rules. Authentication protects only CampusFlow's React interface; users can call the endpoint directly. Do not enter real student data. Proper data authorization requires a trusted server that verifies Firebase ID tokens or a database with authenticated access policies.
+- Existing remote records are unchanged by the migration.
 
-The MockAPI endpoint is public and unauthenticated. Any person who knows the URL may read or modify shared records. Never use real student information or private credentials. This project is not an official AUPP service and has no authentication or authorization layer.
+## React concepts
+
+The app uses function components, JSX, props, controlled forms, event handlers, `useState`, `useEffect`, `useMemo`, and Firebase's auth-state listener. A small hash router is kept instead of adding a routing dependency. API and storage services are separate from rendered UI.
