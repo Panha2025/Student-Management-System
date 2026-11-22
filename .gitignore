@@ -38,4 +38,3 @@ playwright-report/
 tmp/
 
 dist/
-.env.local

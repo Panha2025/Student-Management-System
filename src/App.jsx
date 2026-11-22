@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Sidebar from './components/Sidebar.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
-import { useAuth } from './contexts/AuthContext.jsx';
 import Header from './components/Header.jsx';
 import StudentForm from './components/StudentForm.jsx';
 import StudentTable from './components/StudentTable.jsx';
@@ -20,7 +18,7 @@ import { parseRoute } from './router.js';
 
 function getRoute() { return parseRoute(window.location.hash); }
 
-function CampusFlow({ user }) {
+export default function App() {
   const [route, setRoute] = useState(getRoute);
   const [students, setStudents] = useState([]);
   const [countries, setCountries] = useState([]);
@@ -33,7 +31,6 @@ function CampusFlow({ user }) {
   const [dialog, setDialog] = useState(null);
   const [modeBusy, setModeBusy] = useState(false);
 
-  const { logout } = useAuth();
   const notify = (message, type = 'success') => setToast({ message, type, key: Date.now() + Math.random() });
   const refreshStudents = async () => {
     setLoading(true);
@@ -129,7 +126,7 @@ function CampusFlow({ user }) {
   return <>
     <a href="#content" className="skip-link">Skip to content</a>
     <Sidebar page={route.name} navigate={(page) => { if (page !== route.name) window.location.hash = page; }} open={menuOpen} close={() => setMenuOpen(false)} />
-    <div className="main-wrap"><Header user={user} onLogout={logout} theme={theme} toggleTheme={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} openMenu={() => setMenuOpen(true)} />
+    <div className="main-wrap"><Header theme={theme} toggleTheme={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} openMenu={() => setMenuOpen(true)} />
       <main id="content" tabIndex="-1">{content}</main>
       <footer className="footer">AUPP Student Management System • Academic project demo, not an official AUPP service<span>Web Development II</span></footer>
     </div>
@@ -139,9 +136,4 @@ function CampusFlow({ user }) {
     {toast && <div id="toasts" role="status" aria-live="polite"><div key={toast.key} className={`toast ${toast.type === 'error' ? 'toast-error' : ''}`}>{toast.message}</div></div>}
     <noscript><div className="noscript-notice">This student management demo needs JavaScript. Enable it and reload this page.</div></noscript>
   </>;
-}
-
-export default function App() {
-  const { user, loading } = useAuth();
-  return <ProtectedRoute loading={loading} user={user}><CampusFlow user={user} /></ProtectedRoute>;
 }

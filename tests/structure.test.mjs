@@ -24,7 +24,10 @@ test('Vite HTML uses the React entry and public assets exist', async () => {
   for (const asset of ['public/images/aupp-logo.png', 'public/images/aupp-campus.jpg', 'public/icons/favicon.svg']) {
     assert.ok((await stat(resolve(root, asset))).isFile(), `Missing asset ${asset}`);
   }
-  assert.match(await readFile(resolve(root, 'src/main.jsx'), 'utf8'), /createRoot/);
+  const entry = await readFile(resolve(root, 'src/main.jsx'), 'utf8');
+  assert.match(entry, /createRoot/);
+  assert.match(entry, /<App \/>/);
+  assert.doesNotMatch(entry, /AuthProvider|ProtectedRoute|firebase/i);
 });
 
 test('local imports resolve, the React source has no cycles or orphan modules', () => {
@@ -53,4 +56,5 @@ test('package scripts provide dev server, build, preview, and tests', async () =
   const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   assert.deepEqual(pkg.scripts, { dev: 'vite', build: 'vite build', preview: 'vite preview', test: 'node --test' });
   assert.ok(pkg.dependencies.react && pkg.dependencies['react-dom'] && pkg.devDependencies.vite);
+  assert.equal(pkg.dependencies.firebase, undefined);
 });
