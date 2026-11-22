@@ -1,80 +1,56 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
-import { resolve, dirname, relative } from 'node:path';
+import { resolve, dirname, relative, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { spawnSync } from 'node:child_process';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-
 async function findFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
-  const groups = await Promise.all(entries.map((entry) => entry.isDirectory()
-    ? findFiles(resolve(directory, entry.name)) : [resolve(directory, entry.name)]));
-  return groups.flat();
+  return (await Promise.all(entries.map((entry) => entry.isDirectory()
+    ? findFiles(resolve(directory, entry.name)) : [resolve(directory, entry.name)]))).flat();
 }
-
-const scripts = (await findFiles(resolve(root, 'js'))).filter((file) => file.endsWith('.js'));
+const modules = (await findFiles(resolve(root, 'src'))).filter((file) => ['.js', '.jsx'].includes(extname(file)));
 const graph = new Map();
-for (const file of scripts) {
+for (const file of modules) {
   const source = await readFile(file, 'utf8');
-  const dependencies = [...source.matchAll(/(?:\bfrom\s*|\bimport\s*\(\s*)['"]([^'"]+)['"]/g)]
-    .map((match) => resolve(dirname(file), match[1]));
-  graph.set(file, dependencies);
+  const imports = [...source.matchAll(/(?:\bfrom\s*|\bimport\s*\()\s*['"]([^'"]+)['"]/g)].map((match) => match[1]);
+  graph.set(file, imports.filter((path) => path.startsWith('.')).map((path) => resolve(dirname(file), path)));
 }
 
-test('every JavaScript module parses', () => {
-  for (const file of scripts) {
-    const result = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
-    assert.equal(result.status, 0, result.stderr);
+test('Vite HTML uses the React entry and public assets exist', async () => {
+  const html = await readFile(resolve(root, 'index.html'), 'utf8');
+  assert.match(html, /<script type="module" src="\/src\/main\.jsx"><\/script>/);
+  for (const asset of ['public/images/aupp-logo.png', 'public/images/aupp-campus.jpg', 'public/icons/favicon.svg']) {
+    assert.ok((await stat(resolve(root, asset))).isFile(), `Missing asset ${asset}`);
   }
+  assert.match(await readFile(resolve(root, 'src/main.jsx'), 'utf8'), /createRoot/);
 });
 
-test('all imports resolve, the module graph has no cycles, and no module is orphaned', () => {
+test('local imports resolve, the React source has no cycles or orphan modules', () => {
   const visited = new Set();
-  function visit(file, ancestors = []) {
-    assert.ok(graph.has(file), `Missing module: ${relative(root, file)}`);
-    assert.ok(!ancestors.includes(file), `Circular import: ${[...ancestors, file].map((path) => relative(root, path)).join(' → ')}`);
+  function visit(file, parents = []) {
+    assert.ok(graph.has(file), `Missing import: ${relative(root, file)}`);
+    assert.ok(!parents.includes(file), `Import cycle: ${[...parents, file].map((item) => relative(root, item)).join(' → ')}`);
     if (visited.has(file)) return;
-    for (const dependency of graph.get(file)) visit(dependency, [...ancestors, file]);
+    for (const dependency of graph.get(file)) visit(dependency, [...parents, file]);
     visited.add(file);
   }
-  visit(resolve(root, 'js/app.js'));
-  assert.deepEqual([...graph.keys()].filter((file) => !visited.has(file)), [], 'Remove unused modules after checking their replacements.');
+  visit(resolve(root, 'src/main.jsx'));
+  assert.deepEqual([...graph.keys()].filter((file) => !visited.has(file)).map((file) => relative(root, file)), [], 'Every source module should have an application responsibility.');
 });
 
-test('HTML loads all five stylesheets and the module entry through existing relative paths', async () => {
-  const html = await readFile(resolve(root, 'index.html'), 'utf8');
-  assert.match(html, /<script type="module" src="js\/app\.js"><\/script>/);
-  const styles = [...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map((match) => match[1]);
-  assert.deepEqual(styles, ['css/base.css', 'css/layout.css', 'css/components.css', 'css/pages.css', 'css/responsive.css']);
-  const assets = [...html.matchAll(/(?:src|href)="((?:js|css|assets)\/[^"#]+)"/g)].map((match) => match[1]);
-  for (const asset of assets) assert.ok((await stat(resolve(root, asset))).isFile(), `Missing asset: ${asset}`);
-});
-
-test('UI modules do not access fetch or localStorage directly', async () => {
-  for (const file of scripts) {
+test('API and storage access stay inside their service modules', async () => {
+  for (const file of modules) {
     const source = await readFile(file, 'utf8');
     const name = relative(root, file);
-    if (name !== 'js/services/storageService.js') {
-      assert.doesNotMatch(source, /\blocalStorage\s*\.\s*(getItem|setItem|removeItem|clear)\s*\(/, name);
-    }
-    if (name !== 'js/api/http.js') assert.doesNotMatch(source, /\bfetch\s*\(\s*[^)\s]/, name);
+    if (name !== 'src/services/storageService.js') assert.doesNotMatch(source, /\blocalStorage\s*\.\s*(getItem|setItem|removeItem|clear)\s*\(/, name);
+    if (name !== 'src/api/http.js') assert.doesNotMatch(source, /\bfetch\s*\(/, name);
   }
 });
 
-test('Live Server serves the HTML, CSS, favicon, and complete module graph', {
-  skip: !process.env.CAMPUSFLOW_URL,
-}, async () => {
-  const resources = ['index.html', 'assets/icons/favicon.svg', 'assets/images/aupp-campus.jpg', 'assets/images/aupp-logo.png',
-    ...(await findFiles(resolve(root, 'css'))).map((file) => relative(root, file)),
-    ...scripts.map((file) => relative(root, file))];
-  for (const resource of resources) {
-    const response = await fetch(new URL(resource, process.env.CAMPUSFLOW_URL));
-    assert.equal(response.status, 200, `${resource}: HTTP ${response.status}`);
-    const type = response.headers.get('content-type');
-    if (resource.endsWith('.js')) assert.match(type, /javascript/, resource);
-    if (resource.endsWith('.css')) assert.match(type, /text\/css/, resource);
-    assert.ok((await response.text()).trim().length, `Empty response: ${resource}`);
-  }
+test('package scripts provide dev server, build, preview, and tests', async () => {
+  const pkg = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
+  assert.deepEqual(pkg.scripts, { dev: 'vite', build: 'vite build', preview: 'vite preview', test: 'node --test' });
+  assert.ok(pkg.dependencies.react && pkg.dependencies['react-dom'] && pkg.devDependencies.vite);
 });
