@@ -12,6 +12,7 @@ let StudentForm;
 let Analytics;
 let Settings;
 let Sidebar;
+let StudentTable;
 const records = createSampleStudents();
 before(async () => {
   vite = await createServer({ configFile: false, server: { middlewareMode: true, hmr: false }, appType: 'custom' });
@@ -21,6 +22,7 @@ before(async () => {
   ({ default: Analytics } = await vite.ssrLoadModule('/src/pages/Analytics.jsx'));
   ({ default: Settings } = await vite.ssrLoadModule('/src/pages/Settings.jsx'));
   ({ default: Sidebar } = await vite.ssrLoadModule('/src/components/Sidebar.jsx'));
+  ({ default: StudentTable } = await vite.ssrLoadModule('/src/components/StudentTable.jsx'));
 });
 after(async () => { await vite?.close(); });
 
@@ -58,10 +60,18 @@ test('React analytics and settings render charts and explicit shared-data warnin
 });
 
 
-
-
 test('sidebar keeps direct navigation to all CampusFlow pages', () => {
-  const html = renderToStaticMarkup(React.createElement(Sidebar, { page: 'dashboard', navigate() {}, open: false, close() {} }));
+  const html = renderToStaticMarkup(React.createElement(Sidebar, { page: 'dashboard', open: false, close() {} }));
   for (const route of ['dashboard', 'students', 'add', 'analytics', 'settings', 'help']) assert.ok(html.includes(`#${route}`), route);
   assert.doesNotMatch(html, /Administrator|breadcrumbs|Google/);
+});
+
+
+test('React safely renders student text as content rather than executable HTML', () => {
+  const unsafeStudent = { ...records[0], name: '<script>alert(1)</script>' };
+  const html = renderToStaticMarkup(React.createElement(StudentTable, {
+    students: [unsafeStudent], onProfile() {}, onEdit() {}, onDelete() {},
+  }));
+  assert.doesNotMatch(html, /<script>/);
+  assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
 });

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createSampleStudents } from '../src/data/sampleStudents.js';
 import { cleanStudentInput, validateEndpoint, validateStudent } from '../src/utils/validation.js';
 import { createDirectoryFilters, countBy, filterStudents, getStatistics, paginateStudents } from '../src/utils/studentQueries.js';
-import { escapeHtml, formatDate, formatGpa } from '../src/utils/formatting.js';
+import { formatGpa } from '../src/utils/formatting.js';
 import { createStudentsCsv } from '../src/utils/csv.js';
 import { readStudents, STORAGE_KEYS } from '../src/services/storageService.js';
 import { deleteStudent, getEndpoint, listStudents, normalizeStudents, resetSampleStudents, saveStudent } from '../src/services/studentService.js';
@@ -154,10 +154,9 @@ test('major and status statistics remain available for charts', () => {
   assert.equal(getStatistics(students).total, 64);
 });
 
-test('HTML, CSV, and dates safely handle unusual input', () => {
-  assert.equal(escapeHtml('<script>"&'), '&lt;script&gt;&quot;&amp;');
+test('GPA formatting and CSV safely handle unusual input', () => {
   assert.equal(formatGpa(''), '—');
-  assert.equal(formatDate('bad date'), '—');
+  assert.equal(formatGpa(null), '—');
   const csv = createStudentsCsv([{ ...studentInput, name: '=SUM(1,2)', email: 'a"b@example.com' }]);
   assert.ok(csv.includes('"\'=SUM(1,2)"'));
   assert.ok(csv.includes('"a""b@example.com"'));

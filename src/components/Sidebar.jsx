@@ -8,7 +8,7 @@ const links = [
   ['help', 'Help & Guide', '?'],
 ];
 
-export default function Sidebar({ page, navigate, open, close }) {
+export default function Sidebar({ page, open, close }) {
   return <>
     {open && <button className="sidebar-backdrop" aria-label="Close navigation" onClick={close} />}
     <aside className={`sidebar ${open ? 'open' : ''}`}>
@@ -20,7 +20,7 @@ export default function Sidebar({ page, navigate, open, close }) {
         {links.map(([route, label, icon], index) => <span key={route}>
           {index === 4 && <span className="nav-divider" />}
           <a className={`nav-link ${page === route || (route === 'students' && page === 'edit') ? 'active' : ''}`}
-            href={`#${route}`} onClick={() => { navigate(route); close(); }}>
+            href={`#${route}`} onClick={close}>
             <span className="nav-symbol" aria-hidden="true">{icon}</span>{label}
           </a>
         </span>)}

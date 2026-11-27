@@ -105,7 +105,7 @@ export default function App() {
     setEndpoint(activeEndpoint);
     setStudents(remoteRecords ?? await listStudents());
     setLoadError('');
-    setRoute({ name: 'settings', id: null });
+    window.location.hash = 'settings';
     notify(activeEndpoint ? 'Shared MockAPI connected' : 'Demo Mode enabled');
   }
 
@@ -125,7 +125,7 @@ export default function App() {
 
   return <>
     <a href="#content" className="skip-link">Skip to content</a>
-    <Sidebar page={route.name} navigate={(page) => { if (page !== route.name) window.location.hash = page; }} open={menuOpen} close={() => setMenuOpen(false)} />
+    <Sidebar page={route.name} open={menuOpen} close={() => setMenuOpen(false)} />
     <div className="main-wrap"><Header theme={theme} toggleTheme={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} openMenu={() => setMenuOpen(true)} />
       <main id="content" tabIndex="-1">{content}</main>
       <footer className="footer">AUPP Student Management System • Academic project demo, not an official AUPP service<span>Web Development II</span></footer>

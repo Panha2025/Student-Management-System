@@ -12,7 +12,3 @@ export function parseRoute(hash) {
     return { name: 'dashboard', id: null };
   }
 }
-
-export function navigate(route) {
-  window.location.hash = route;
-}
